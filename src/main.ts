@@ -1,28 +1,91 @@
-let myName1 = "Em"; // implicitly stated type
-let myName2 : string = "Em" // explicitly stated type
-let myName3: string;
+// mouseover the variables!
+let stringArray = ["one", "hey", "EM"]; // string[]
+let guitars = ["Strat", "Les Paul", 5150]; // (string | number)[]
+let mixedData = ["EVH", 1984, true]; // (string | number | boolean)[]
 
-// myName1 = 42; // compiler does not like it
+// stringArr[0] = 42;
+// stringArray.push(42);
+guitars[0] = 1984;
+guitars.unshift("Jim"); // add at the beginning
+// guitars.unshift(true);
 
-let meaningOfLife : number;
-let isLoading : boolean;
-let album: any; // any datatype is ok
-let postId : string | number; // union type : string or number is ok
-let regex: RegExp = /\w+/g;
+// stringArray = guitars;
+guitars = stringArray;
+// guitars = mixedData;
 
-myName1 = "John";
-meaningOfLife = 42;
-isLoading = true;
-album = "Van Halen"
+let test = []; // any[]
+let bands: string[] = [];
+bands.push("Van Halen");
+// bands.push(true);
 
-// const sum1 = (a,b) => { // parameter a and b implictly has 'any' type
-//     return a + b;
-// }
+/*                       */
+/*         TUPLE         */
+/*                       */
+let myTuple: [string, number, boolean] = ["Em", 42, true]; // more strict than array
+let mixed = ["John", 1, false];
 
-const sum2 = (a:number, b:number) => { // sum2 returns number
-    return a + b;
+mixed = myTuple; // no problem
+// myTuple = mixed;
+
+// myTuple[3] = 42 // type of 4th element of myTuple is not defined
+myTuple[1] = 42;
+
+/*                        */
+/*         OBJECT         */
+/*                        */
+let myObj: object;
+myObj = [];
+console.log(typeof myObj); // object
+myObj = bands;
+myObj = {};
+
+const exampleObj = {
+  prop1: "Em",
+  prop2: true,
+};
+
+// exampleObj.prop2 = 42;
+
+type Guitarist = {
+  // or 'interface Guitarist'
+  name?: string;
+  active?: boolean; // 'active' property is optional (boolean | undefined)
+  albums: (string | number)[];
+};
+
+let evh: Guitarist = {
+  name: "Eddie",
+  active: false,
+  albums: [1984, 5150, "OU812"],
+};
+
+let jp: Guitarist = {
+  name: "Jimmy",
+  albums: ["I", "II", "IV"],
+};
+
+evh = jp;
+// evh.years = 40; // wrong
+
+const greetGuitarist = (guitarist: Guitarist) => {
+  if (guitarist.name) {
+    return `Hello ${guitarist.name?.toUpperCase()}!`; // guitarist.name could possibly be 'undefined'
+  }
+  return "Hello!";
+};
+
+console.log(greetGuitarist(jp)); // Hello Jimmy!
+
+/*                       */
+/*          enum         */
+/*                       */
+enum Grade {
+  U,
+  // U = 1,  // 1부터 시작
+  D,
+  C,
+  B,
+  A,
 }
 
-const sum3 = (a:number, b:string) => { // sum3 returns string
-    return a + b;
-}
+console.log(Grade.U); // 0
