@@ -1,18 +1,28 @@
-let username = 'EM';
-console.log(username);
+let myName1 = "Em"; // implicitly stated type
+let myName2 : string = "Em" // explicitly stated type
+let myName3: string;
 
-// let a = 12;
-// let b = '6';
-// let c = 2;
+// myName1 = 42; // compiler does not like it
 
-// console.log(a/b); 
-// console.log(c*b); 
-// // typescript defined b as string (without us telling) but still compiles to js
-// // ts파일에 오류가 있을 경우 컴파일을 원하지 않으면 emitOnError:"true" (tsconfig.json)
+let meaningOfLife : number;
+let isLoading : boolean;
+let album: any; // any datatype is ok
+let postId : string | number; // union type : string or number is ok
+let regex: RegExp = /\w+/g;
 
-let a : number = 12;
-let b : number = 6;
-let c : number = 2;
+myName1 = "John";
+meaningOfLife = 42;
+isLoading = true;
+album = "Van Halen"
 
-console.log(a/b); // no warning in ts file!
-console.log(c*b); 
+// const sum1 = (a,b) => { // parameter a and b implictly has 'any' type
+//     return a + b;
+// }
+
+const sum2 = (a:number, b:number) => { // sum2 returns number
+    return a + b;
+}
+
+const sum3 = (a:number, b:string) => { // sum3 returns string
+    return a + b;
+}

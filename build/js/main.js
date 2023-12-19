@@ -1,15 +1,23 @@
 "use strict";
-let username = 'EM';
-console.log(username);
-// let a = 12;
-// let b = '6';
-// let c = 2;
-// console.log(a/b); 
-// console.log(c*b); 
-// // typescript defined b as string (without us telling) but still compiles to js
-// // ts파일에 오류가 있을 경우 컴파일을 원하지 않으면 emitOnError:"true" (tsconfig.json)
-let a = 12;
-let b = 6;
-let c = 2;
-console.log(a / b); // no warning in ts file!
-console.log(c * b);
+let myName1 = "Em"; // implicitly stated type
+let myName2 = "Em"; // explicitly stated type
+let myName3;
+// myName1 = 42; // compiler does not like it
+let meaningOfLife;
+let isLoading;
+let album; // any datatype is ok
+let postId; // union type : string or number is ok
+let regex = /\w+/g;
+myName1 = "John";
+meaningOfLife = 42;
+isLoading = true;
+album = "Van Halen";
+// const sum1 = (a,b) => { // parameter a and b implictly has 'any' type
+//     return a + b;
+// }
+const sum2 = (a, b) => {
+    return a + b;
+};
+const sum3 = (a, b) => {
+    return a + b;
+};
