@@ -1,104 +1,46 @@
-/*                    */
-/*    Type Aliases    */
-/*                    */
-type stringOrNumber = string | number;
-type stringOrNumberArray = (string | number)[];
+/*                           */
+/*                           */
+/*      TYPE ASSERTIONS      */
+/*                           */
+/*                           */
 
-type Guitarist = {
-  name?: string;
-  active?: boolean;
-  albums: (string | number)[];
+// type aliases
+type One = string;
+type Two = string | number;
+type Three = "hello";
+
+let a: One = "hello";
+let b = a as Two; // assign a to less specific type (Two)
+let c = a as Three; // assign a to more specific type (Three)
+
+let d = <One>"world";
+let e = <string | number>"world";
+
+const addOrConcat = (
+  a: number,
+  b: number,
+  c: "add" | "concat"
+): number | string => {
+  if (c === "add") return a + b;
+  return "" + a + b;
 };
 
-type UserId = stringOrNumber;
-// interface PostId = stringOrNumber // this doesn't work
-// interface is more like an object
+// let myVal: string = addOrConcat(2,2,'concat'); // ts doesn't like this!
+let myVal: string = addOrConcat(2, 2, "concat") as string;
+let myNumber: number = addOrConcat(2, 2, "concat") as number; // ts sees no problem here, but a string is returned.
 
-/*                    */
-/*    Literal Types   */
-/*                    */
-let myName: "Dave";
-let userName: "Dave" | "John" | "Amy";
-// userName = 'Rachel' // wrong!
-userName = "Amy";
+// 10 as string // wrong!
+10 as unknown as string; // double casting (forced casting) - not recommended
 
-/*                    */
-/*      Functions     */
-/*                    */
-const add = (a: number, b: number): number => {
-  // returns number
-  return a + b;
-};
+// The DOM
+// Let's see what typescript infers
+const elem = document.querySelector("#myID"); // returns Element | null
+// const myImg = document.getElementById('#img') // returns HTMLElement | null
+const img = document.querySelector("img"); // returns HTMLImageElement | null
 
-const logMsg = (message: any): void => {
-  // do not return anything
-  console.log(message);
-};
+const obviouslyImg = document.querySelector("img") as HTMLImageElement;
+obviouslyImg.src;
 
-logMsg(add(2, 3));
-
-let subtract = function (c: number, d: number): number {
-  return c - d;
-};
-
-type mathFunction = (a: number, b: number) => number; // returns number
-// interface로 작성할 경우
-// interface mathFunction {
-//   (a: number, b: number) : number
-// }
-let multiply: mathFunction = function (c, d) {
-  return c * d;
-};
-logMsg(multiply(2, 2));
-
-const addAll = (a: number, b: number, c?: number): number => {
-  // parameter c is optional (possibly undefined)
-  if (typeof c !== "undefined") {
-    return a + b + c;
-  }
-  return a + b;
-};
-// Default Param Value
-const sumAll = (a: number = 10, b: number, c: number = 2): number => {
-  // parameter a is default 10
-  return a + b + c;
-};
-
-logMsg(addAll(2, 3, 2));
-logMsg(addAll(2, 3));
-logMsg(sumAll(undefined, 3)); // a의 default value를 그대로 쓰려면 a 자리에 undefined를 적어줘야 함
-
-// Rest Parameters
-const total = (a: number, ...nums: number[]): number => {
-  return a + nums.reduce((prev, curr) => prev + curr);
-};
-logMsg(total(1, 2, 3, 4)); // a = 10, ...nums = 2, 3, 4
-
-const createError = (errMsg: string): never => {
-  // never : this function explicitly throws error
-  throw new Error(errMsg);
-};
-
-// never : this function has infinite loop within it
-const infinite = () => {
-  let i: number = 1;
-  while (true) {
-    i++;
-    if (i > 100) break; // return type 확인해보기 (never | void)
-  }
-};
-
-// custom type guards
-const isNumber = (value: any): boolean => {
-  return typeof value === "number" ? true : false;
-};
-
-// use of never type
-const numberOrString = (value: number | string): string => {
-  // type guards
-  if (typeof value === "string") return "string";
-  // if (typeof value === 'number') return 'number';
-  if (isNumber(value)) return "number";
-  // typeof value === 'undefined' 일 경우(which should not happen)의 리턴값을 포함해야 함(typescript needs it)
-  return createError("This should never happen"); // returning 'never' type
-};
+// non-null assertion
+const myImg = document.getElementById("#img")!;
+const nextImg = <HTMLImageElement>document.getElementById("#img");
